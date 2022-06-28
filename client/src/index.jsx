@@ -10,7 +10,20 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
+  }
 
+  getRepos() {
+    $.ajax({
+      type: "GET",
+      url: 'http://127.0.0.1:1128/repos',
+      contentType: 'application/json',
+      success: (res) => {this.setState({repos: JSON.parse(res)})},
+      error: (error) => {console.error('Request Failed: ', error)}
+    });
+  }
+
+  componentDidMount() {
+    this.getRepos()
   }
 
   search (term) {
@@ -21,7 +34,7 @@ class App extends React.Component {
       url: 'http://127.0.0.1:1128/repos',
       contentType: 'application/json',
       data: JSON.stringify({searchedUsername: term}),
-      success: console.log('Request Sent'),
+      success: (res) => {this.getRepos().bind(this)},
       error: (error) => {console.error('Request Failed: ', error)}
     });
   }
@@ -29,8 +42,8 @@ class App extends React.Component {
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
       <Search onSearch={this.search.bind(this)}/>
+      <RepoList repos={this.state.repos}/>
     </div>)
   }
 }
