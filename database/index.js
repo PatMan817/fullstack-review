@@ -8,12 +8,12 @@ let repoSchema = mongoose.Schema({
     unique: true
   },
   repos: [{
+    repoAuthor: String,
     repoId: {
       type: Number,
       unique: true
     },
     repoName: String,
-    repoURL: String,
     repoDescription: String,
     starCount: Number,
     forkCount: Number
@@ -33,14 +33,15 @@ async function save(userName, repoList) {
     let deleted = await Repo.findOneAndDelete({username: userName})
   }
   //else create new
+  console.log(repoList)
   let newUser = new Repo({
-      username: userName,
+      username: repoList[0].owner.login,
       repos: []
   })
   repoList.forEach((repo) => {newUser.repos.push({
+    repoAuthor: repo.owner.login,
     repoId: repo['id'],
     repoName: repo['name'],
-    repoURL: repo['html_url'],
     repoDescription: repo['description'],
     starCount: repo['stargazers_count'],
     forkCount: repo['forks_count']
