@@ -26,9 +26,6 @@ async function save(userName, repoList) {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
-  if (repoList.length === 0) {
-    return
-  }
   //check if database contains username already
   let searchResult = await Repo.find({username: userName})
   if (searchResult.length > 0) {

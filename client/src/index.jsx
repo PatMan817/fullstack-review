@@ -34,7 +34,12 @@ class App extends React.Component {
       url: 'http://127.0.0.1:1128/repos',
       contentType: 'application/json',
       data: JSON.stringify({searchedUsername: term}),
-      success: (res) => {this.getRepos().bind(this)},
+      success: (res) => {if (res !== 'User Saved') {
+                          alert(res)
+                          } else {
+                            this.getRepos().bind(this)
+                          }
+                        },
       error: (error) => {console.error('Request Failed: ', error)}
     });
   }

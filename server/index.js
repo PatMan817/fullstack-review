@@ -13,11 +13,17 @@ app.post('/repos', async function (req, res) {
   // TODO - your code here!
   let username = req.body.searchedUsername;
   let repoData = await getReposByUsername(username);
+  if (repoData.data === undefined) {
+    res.end('Github User does not exist');
+    return
+  }
   repoData = repoData.data;
+  if (repoData.length === 0) {
+    res.end('Github User has no repositories');
+    return
+  }
   let complete = await save(username, repoData);
-  let refresh = await getTop25();
-  console.log('Top 25: ',refresh)
-  res.end(JSON.stringify(refresh))
+  res.end(complete)
   // This route should take the github username provided
   // and get the repo information from the github API, then
   // save the repo information in the database

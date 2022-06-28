@@ -14,7 +14,8 @@ let getReposByUsername = (username) => {
       'Authorization': `token ${config.TOKEN}`
     }
   };
-  return axios.get(API_URL, options);
+  return axios.get(API_URL, options)
+    .catch((err) => 'User does not exist')
 }
 
 module.exports.getReposByUsername = getReposByUsername;
