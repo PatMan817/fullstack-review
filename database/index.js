@@ -63,8 +63,10 @@ async function getTop25() {
   for (let i = 0; i < users.length; i++) {
     allRepos = allRepos.concat(users[i].repos)
   }
-  allRepos = allRepos.sort((a, b) => b.starCount - a.starCount)
-  allRepos = allRepos.slice(0, 25)
+  allRepos = allRepos.sort((a, b) => b.starCount - a.starCount);
+  let totalRepos = allRepos.length;
+  allRepos = allRepos.slice(0, 25);
+  allRepos.push(totalRepos);
   return allRepos
 }
 

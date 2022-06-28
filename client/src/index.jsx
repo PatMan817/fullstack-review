@@ -8,7 +8,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      repos: []
+      repos: [],
+      totalRepoCount: 0
     }
   }
 
@@ -17,7 +18,9 @@ class App extends React.Component {
       type: "GET",
       url: 'http://127.0.0.1:1128/repos',
       contentType: 'application/json',
-      success: (res) => {this.setState({repos: JSON.parse(res)})},
+      success: (res) => {let response = JSON.parse(res);
+                        let repoCount = response.pop();
+                        this.setState({repos: response, totalRepoCount: repoCount})},
       error: (error) => {console.error('Request Failed: ', error)}
     });
   }
@@ -48,7 +51,7 @@ class App extends React.Component {
     return (<div>
       <h1>Github Fetcher</h1>
       <Search onSearch={this.search.bind(this)}/>
-      <RepoList repos={this.state.repos}/>
+      <RepoList repos={this.state.repos} totalRepoCount={this.state.totalRepoCount}/>
     </div>)
   }
 }

@@ -3,7 +3,7 @@ import RepoListItem from './RepoListItem.jsx';
 
 const RepoList = (props) => (
   <div>
-    <h4> There are {props.repos.length} repos. </h4>
+    <h4> There are {props.totalRepoCount} repos in the database. </h4>
     <table>
       <thead>
         <tr>
