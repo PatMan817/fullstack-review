@@ -33,7 +33,6 @@ async function save(userName, repoList) {
     let deleted = await Repo.findOneAndDelete({username: userName})
   }
   //else create new
-  console.log(repoList)
   let newUser = new Repo({
       username: repoList[0].owner.login,
       repos: []

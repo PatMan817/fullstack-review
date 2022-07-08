@@ -8,6 +8,7 @@ const getTop25 = require('../database/index.js').getTop25;
 app.use(cors());
 app.use(express.static(__dirname + '/../client/dist'));
 app.use(express.json())
+//app.use(express.urlencoded({ extended: true }));
 
 app.post('/repos', async function (req, res) {
   // TODO - your code here!

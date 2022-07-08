@@ -1,59 +1,51 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      repos: [],
-      totalRepoCount: 0
-    }
-  }
+function App() {
 
-  getRepos() {
-    $.ajax({
-      type: "GET",
-      url: 'http://127.0.0.1:1128/repos',
-      contentType: 'application/json',
-      success: (res) => {let response = JSON.parse(res);
-                        let repoCount = response.pop();
-                        this.setState({repos: response, totalRepoCount: repoCount})},
-      error: (error) => {console.error('Request Failed: ', error)}
+  const [repos, setRepos] = useState([]);
+  const [totalRepoCount, setTotalRepoCount] = useState(0)
+
+  useEffect(() => {
+    getRepos()
+  }, [])
+
+  function getRepos() {
+    $.get('http://127.0.0.1:1128/repos', (res) => {
+      let response = JSON.parse(res);
+      setTotalRepoCount(response.pop());
+      setRepos(response);
     });
   }
 
-  componentDidMount() {
-    this.getRepos()
-  }
-
-  search (term) {
+  function search(term) {
     console.log(`${term} was searched`);
     // TODO
     $.ajax({
       type: "POST",
       url: 'http://127.0.0.1:1128/repos',
       contentType: 'application/json',
-      data: JSON.stringify({searchedUsername: term}),
-      success: (res) => {if (res !== 'User Saved') {
-                          alert(res)
-                          } else {
-                            this.getRepos().bind(this)
-                          }
-                        },
-      error: (error) => {console.error('Request Failed: ', error)}
+      data: JSON.stringify({ searchedUsername: term }),
+      success: (res) => {
+        if (res !== 'User Saved') {
+          alert(res)
+        } else {
+          getRepos()
+        }
+      },
+      error: (error) => { console.error('Request Failed: ', error) }
     });
   }
 
-  render () {
-    return (<div>
-      <h1>Github Fetcher</h1>
-      <Search onSearch={this.search.bind(this)}/>
-      <RepoList repos={this.state.repos} totalRepoCount={this.state.totalRepoCount}/>
-    </div>)
-  }
+  return (<div>
+    <h1>Github Fetcher</h1>
+    <Search onSearch={search} />
+    <RepoList repos={repos} totalRepoCount={totalRepoCount} />
+  </div>)
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
