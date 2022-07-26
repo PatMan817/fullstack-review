@@ -1,5 +1,4 @@
-import React from "react";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import $ from "jquery";
 
 function Search({ getRepos }) {
