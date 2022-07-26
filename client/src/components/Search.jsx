@@ -5,7 +5,8 @@ import $ from "jquery";
 function Search({ getRepos }) {
   const searchInput = useRef();
 
-  function search() {
+  function search(e) {
+    e.preventDefault();
     console.log(`${searchInput.current.value} was searched`);
     // TODO
     $.post("/repos", { searchedUsername: searchInput.current.value })
@@ -22,8 +23,13 @@ function Search({ getRepos }) {
   return (
     <>
       <h4>Add more repos!</h4>
-      Enter a github username: <input ref={searchInput} />
-      <button onClick={search}> Add Repos </button>
+      <form onSubmit={search}>
+        <label>
+          Enter a github username:
+          <input required type="text" ref={searchInput} />
+        </label>
+        <button type="submit"> Add Repos </button>
+      </form>
     </>
   );
 }
