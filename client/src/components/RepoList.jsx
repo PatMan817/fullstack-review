@@ -16,8 +16,8 @@ function RepoList({ repos, totalRepoCount }) {
           </tr>
         </thead>
         <tbody>
-          {repos?.map((repo, index) => (
-            <RepoListItem repo={repo} index={index} key={repo.repoId} />
+          {repos?.map((repo) => (
+            <RepoListItem repo={repo} key={repo.repoId} />
           ))}
         </tbody>
       </table>
