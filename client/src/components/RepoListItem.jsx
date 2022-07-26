@@ -1,6 +1,6 @@
 import React from "react";
 
-function RepoListItem({ repo, index }) {
+function RepoListItem({ repo }) {
   return (
     <tr className="repo-list-entry media">
       <td>
