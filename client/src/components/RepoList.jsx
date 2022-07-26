@@ -1,10 +1,10 @@
-import React from 'react';
-import RepoListItem from './RepoListItem.jsx';
+import React from "react";
+import RepoListItem from "./RepoListItem.jsx";
 
-function RepoList(props) {
+function RepoList({ repos, totalRepoCount }) {
   return (
-    <div>
-      <h4> There are {props.totalRepoCount} repos in the database. </h4>
+    <>
+      <h4> There are {totalRepoCount} repos in the database. </h4>
       <table>
         <thead>
           <tr>
@@ -16,13 +16,13 @@ function RepoList(props) {
           </tr>
         </thead>
         <tbody>
-          {props.repos.map((repo, index) => (
-            <RepoListItem repo={repo} index={index} key={repo.Id} />
+          {repos?.map((repo, index) => (
+            <RepoListItem repo={repo} index={index} key={repo.repoId} />
           ))}
         </tbody>
       </table>
-    </div>
-  )
+    </>
+  );
 }
 
 export default RepoList;

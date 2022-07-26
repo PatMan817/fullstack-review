@@ -1,15 +1,22 @@
-import React from 'react';
+import React from "react";
 
-function RepoListItem(props) {
+function RepoListItem({ repo, index }) {
   return (
     <tr className="repo-list-entry media">
-      <td><a href={"https://github.com/" + props.repo.repoAuthor + '/' + props.repo.repoName} target="_blank">{props.repo.repoName}</a></td>
-      <td>{props.repo.repoDescription}</td>
-      <td>{props.repo.repoAuthor}</td>
-      <td>{props.repo.starCount}</td>
-      <td>{props.repo.forkCount}</td>
+      <td>
+        <a
+          href={"https://github.com/" + repo.repoAuthor + "/" + repo.repoName}
+          target="_blank"
+        >
+          {repo.repoName}
+        </a>
+      </td>
+      <td>{repo.repoDescription}</td>
+      <td>{repo.repoAuthor}</td>
+      <td>{repo.starCount}</td>
+      <td>{repo.forkCount}</td>
     </tr>
-  )
+  );
 }
 
 export default RepoListItem;

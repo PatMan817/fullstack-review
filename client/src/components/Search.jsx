@@ -1,23 +1,31 @@
-import React from 'react';
-import { useState } from 'react';
+import React from "react";
+import { useRef } from "react";
+import $ from "jquery";
 
-function Search(props) {
-
-  const [term, setTerm] = useState('');
-
-  function onChange (e) {
-    setTerm(e.target.value);
-  }
+function Search({ getRepos }) {
+  const searchInput = useRef();
 
   function search() {
-    props.onSearch(term);
+    console.log(`${searchInput.current.value} was searched`);
+    // TODO
+    $.post("/repos", { searchedUsername: searchInput.current.value })
+      .done((res) => {
+        if (res !== "User Saved") {
+          alert(res);
+        } else {
+          getRepos();
+        }
+      })
+      .fail((err) => console.error("Request Failed: ", err));
   }
 
-    return (<div>
+  return (
+    <>
       <h4>Add more repos!</h4>
-      Enter a github username: <input value={term} onChange={onChange}/>
+      Enter a github username: <input ref={searchInput} />
       <button onClick={search}> Add Repos </button>
-    </div>)
+    </>
+  );
 }
 
 export default Search;
